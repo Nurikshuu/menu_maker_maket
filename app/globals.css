@@ -4,6 +4,24 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── Dark mode overrides ───────────────────────────────────────── */
+html.dark body {
+  background-color: #111827;
+  color: #f3f4f6;
+}
+html.dark .bg-white { background-color: #1f2937 !important; }
+html.dark .bg-gray-50 { background-color: #111827 !important; }
+html.dark .bg-gray-100 { background-color: #374151 !important; }
+html.dark .border-gray-100 { border-color: #374151 !important; }
+html.dark .border-gray-200 { border-color: #4b5563 !important; }
+html.dark .text-gray-900 { color: #f9fafb !important; }
+html.dark .text-gray-700 { color: #d1d5db !important; }
+html.dark .text-gray-600 { color: #9ca3af !important; }
+html.dark .text-gray-500 { color: #6b7280 !important; }
+html.dark .text-gray-400 { color: #4b5563 !important; }
+html.dark .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4) !important; }
+html.dark .shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.7) !important; }
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -49,6 +67,12 @@
 }
 
 :root {
+  /* Brand tokens */
+  --brand-primary: #2563EB;
+  --brand-text-primary: #1A1A1A;
+  --brand-text-secondary: #6B7280;
+  --brand-border: #E5E7EB;
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

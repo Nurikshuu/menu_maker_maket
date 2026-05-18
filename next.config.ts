@@ -2,9 +2,10 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  // Silence the "multiple lockfiles" warning caused by a parent package-lock.json
+  output: 'export', // ← добавить это!
   outputFileTracingRoot: path.join(__dirname),
   images: {
+    unoptimized: true, // ← обязательно при output: 'export'
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],

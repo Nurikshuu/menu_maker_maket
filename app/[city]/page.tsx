@@ -3,6 +3,10 @@
  * Redirects home if city slug is unknown.
  */
 
+export async function generateStaticParams() {
+  return [];
+}
+
 'use client';
 
 import { useEffect, useState } from 'react';

@@ -4,6 +4,10 @@
  * browse the menu, add items (tagged with their name), and can split the bill.
  */
 
+export async function generateStaticParams() {
+  return [];
+}
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';

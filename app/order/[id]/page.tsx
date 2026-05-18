@@ -3,6 +3,10 @@
  * and a status stepper reflecting the order lifecycle.
  */
 
+export async function generateStaticParams() {
+  return [];
+}
+
 'use client';
 
 import { useEffect, useState } from 'react';

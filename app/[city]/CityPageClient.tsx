@@ -1,9 +1,9 @@
-export async function generateStaticParams() {
-  return [];
-}
+'use client';
 
-export { default } from './CityPageClient';
-
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useUIStore } from '@/store/ui.store';
+import { useRestaurants } from '@/hooks/use-restaurant';
 import { CategoryFilter } from '@/components/restaurant/CategoryFilter';
 import { RestaurantCard } from '@/components/restaurant/RestaurantCard';
 import { RestaurantCardSkeleton } from '@/components/restaurant/RestaurantCardSkeleton';

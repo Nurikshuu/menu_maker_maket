@@ -1,9 +1,8 @@
-export async function generateStaticParams() {
-  return [];
-}
+'use client';
 
-export { default } from './TablePageClient';
-
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Star, Clock, Bike, ChevronLeft, ShoppingBag, Users, QrCode } from 'lucide-react';
 import Link from 'next/link';
 import { getRestaurantBySlug } from '@/services/restaurant.service';
 import type { RestaurantWithMenu, MenuCategory, MenuItem } from '@/types/restaurant.types';
@@ -106,7 +105,6 @@ export default function TablePage() {
   return (
     <>
       <main>
-        {/* Dine-in banner */}
         <div className="bg-blue-600 text-white text-center py-2 px-4">
           <div className="flex items-center justify-center gap-2 text-sm">
             <QrCode className="size-4" />
@@ -122,7 +120,6 @@ export default function TablePage() {
           </div>
         </div>
 
-        {/* Cover */}
         <div className="relative h-40 sm:h-56 overflow-hidden bg-gray-200">
           <img
             src={restaurant.coverImageUrl}
@@ -151,7 +148,6 @@ export default function TablePage() {
           </div>
         </div>
 
-        {/* Category tabs */}
         <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
           <div className="flex gap-1 overflow-x-auto px-4 py-2 no-scrollbar">
             {categoriesWithItems.map((cat) => (
@@ -171,7 +167,6 @@ export default function TablePage() {
           </div>
         </div>
 
-        {/* Menu content */}
         <div className="mx-auto max-w-3xl px-4 py-6 space-y-8 pb-32">
           {categoriesWithItems.map((cat) => {
             const items = restaurant.menuItems.filter(
@@ -201,7 +196,6 @@ export default function TablePage() {
         </div>
       </main>
 
-      {/* Floating cart button */}
       {isJoined && (
         <div className="fixed bottom-6 left-0 right-0 flex justify-center px-4 z-30">
           <button
@@ -221,7 +215,6 @@ export default function TablePage() {
         </div>
       )}
 
-      {/* Join modal */}
       {!isJoined && !isLoading && (
         <JoinTableModal
           restaurantName={restaurant.name}
@@ -231,7 +224,6 @@ export default function TablePage() {
         />
       )}
 
-      {/* Table cart drawer */}
       <TableCartDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}

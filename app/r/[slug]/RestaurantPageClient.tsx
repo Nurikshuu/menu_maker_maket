@@ -1,9 +1,9 @@
-export async function generateStaticParams() {
-  return [];
-}
+'use client';
 
-export { default } from './RestaurantPageClient';
-
+import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
+import { Star, Clock, Bike, ChevronLeft, QrCode } from 'lucide-react';
 import Link from 'next/link';
 import { getRestaurantBySlug } from '@/services/restaurant.service';
 import type { RestaurantWithMenu, MenuCategory } from '@/types/restaurant.types';
@@ -13,7 +13,6 @@ import { formatRating, formatDeliveryTime, formatDeliveryFee, formatPrice } from
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/constants/routes.constants';
 
-// Load the QR/camera modal only when the user opens it
 const TableModal = dynamic(() => import('@/components/restaurant/TableModal').then(m => ({ default: m.TableModal })), { ssr: false });
 
 export default function RestaurantPage() {
@@ -63,7 +62,6 @@ export default function RestaurantPage() {
         />
       )}
       <main>
-        {/* Cover */}
         <div className="relative h-56 sm:h-72 overflow-hidden bg-gray-200">
           <img
             src={restaurant.coverImageUrl}
@@ -98,7 +96,6 @@ export default function RestaurantPage() {
           </div>
         </div>
 
-        {/* Dine-in banner */}
         <div className="bg-blue-50 border-b border-blue-100 px-4 py-3">
           <div className="mx-auto max-w-7xl flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-blue-700">
@@ -115,9 +112,7 @@ export default function RestaurantPage() {
           </div>
         </div>
 
-        {/* Content */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-          {/* Mobile: horizontal tabs */}
           <div className="lg:hidden mb-4 flex gap-2 overflow-x-auto pb-1 scrollbar-none">
             {restaurant.menuCategories.map((cat) => (
               <button
@@ -136,7 +131,6 @@ export default function RestaurantPage() {
           </div>
 
           <div className="flex gap-8">
-            {/* Desktop: sticky sidebar */}
             <aside className="hidden lg:block w-52 shrink-0">
               <nav className="sticky top-24 space-y-1">
                 {restaurant.menuCategories.map((cat) => (
@@ -156,7 +150,6 @@ export default function RestaurantPage() {
               </nav>
             </aside>
 
-            {/* Menu items */}
             <div className="flex-1 space-y-10">
               {restaurant.menuCategories.map((cat) => (
                 <CategorySection

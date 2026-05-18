@@ -1,9 +1,9 @@
-export async function generateStaticParams() {
-  return [];
-}
+'use client';
 
-export { default } from './OrderPageClient';
-
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { CheckCircle, Circle } from 'lucide-react';
 import type { Order } from '@/types/order.types';
 import { OrderStatus, ORDER_STATUS_LABELS } from '@/types/order.types';
 import { getOrderById } from '@/services/order.service';
@@ -53,7 +53,6 @@ export default function OrderPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 sm:px-6 py-8 space-y-8">
-      {/* Header */}
       <div className="text-center space-y-2">
         <CheckCircle className="mx-auto size-16 text-green-500" />
         <h1 className="text-2xl font-extrabold text-gray-900">Заказ оформлен!</h1>
@@ -61,7 +60,6 @@ export default function OrderPage() {
         <p className="text-blue-600 font-semibold">{order.restaurantName}</p>
       </div>
 
-      {/* Status stepper */}
       <div className="rounded-xl bg-white shadow-sm p-6">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-5">
           Статус заказа
@@ -99,7 +97,6 @@ export default function OrderPage() {
         </ol>
       </div>
 
-      {/* Order items */}
       <div className="rounded-xl bg-white shadow-sm p-6 space-y-4">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Состав заказа</h2>
         <ul className="space-y-2">
@@ -124,7 +121,6 @@ export default function OrderPage() {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="text-center">
         <Link
           href={ROUTES.HOME}

@@ -1,18 +1,13 @@
-/**
- * Order confirmation page (/order/[id]) — shows order details
- * and a status stepper reflecting the order lifecycle.
- */
-
-export async function generateStaticParams() {
-  return [];
-}
-
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, Circle } from 'lucide-react';
+
+export async function generateStaticParams() {
+  return [];
+}
 import type { Order } from '@/types/order.types';
 import { OrderStatus, ORDER_STATUS_LABELS } from '@/types/order.types';
 import { getOrderById } from '@/services/order.service';

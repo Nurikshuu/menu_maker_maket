@@ -1,18 +1,12 @@
-/**
- * Table QR page (/table/[slug]/[tableNumber])
- * User arrives by scanning a QR code on the table. They join the session,
- * browse the menu, add items (tagged with their name), and can split the bill.
- */
-
-export async function generateStaticParams() {
-  return [];
-}
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Star, Clock, Bike, ChevronLeft, ShoppingBag, Users, QrCode } from 'lucide-react';
+
+export async function generateStaticParams() {
+  return [];
+}
 import Link from 'next/link';
 import { getRestaurantBySlug } from '@/services/restaurant.service';
 import type { RestaurantWithMenu, MenuCategory, MenuItem } from '@/types/restaurant.types';

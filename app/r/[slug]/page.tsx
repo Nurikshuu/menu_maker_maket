@@ -1,13 +1,13 @@
-export async function generateStaticParams() {
-  return [];
-}
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { Star, Clock, Bike, ChevronLeft, QrCode } from 'lucide-react';
+
+export async function generateStaticParams() {
+  return [];
+}
 import Link from 'next/link';
 import { getRestaurantBySlug } from '@/services/restaurant.service';
 import type { RestaurantWithMenu, MenuCategory } from '@/types/restaurant.types';

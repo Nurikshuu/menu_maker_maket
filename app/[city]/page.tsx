@@ -1,18 +1,13 @@
-/**
- * City page (/[city]) — same layout as homepage but pre-filtered by city.
- * Redirects home if city slug is unknown.
- */
-
-export async function generateStaticParams() {
-  return [];
-}
-
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useUIStore } from '@/store/ui.store';
 import { useRestaurants } from '@/hooks/use-restaurant';
+
+export async function generateStaticParams() {
+  return [];
+}
 import { CategoryFilter } from '@/components/restaurant/CategoryFilter';
 import { RestaurantCard } from '@/components/restaurant/RestaurantCard';
 import { RestaurantCardSkeleton } from '@/components/restaurant/RestaurantCardSkeleton';

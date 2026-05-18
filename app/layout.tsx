@@ -5,18 +5,12 @@
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
 import { ThemeApplier } from "@/components/layout/ThemeApplier";
 import { Footer } from "@/components/layout/Footer";
-
-// Load interactive-only components lazily — they are not needed for initial render
-const CartDrawer = dynamic(() => import("@/components/layout/CartDrawer").then(m => ({ default: m.CartDrawer })), { ssr: false });
-const AccountDrawer = dynamic(() => import("@/components/layout/AccountDrawer").then(m => ({ default: m.AccountDrawer })), { ssr: false });
-const CitySelectModal = dynamic(() => import("@/components/layout/CitySelectModal").then(m => ({ default: m.CitySelectModal })), { ssr: false });
-const ToastContainer = dynamic(() => import("@/components/ui/toast").then(m => ({ default: m.ToastContainer })), { ssr: false });
+import { ClientProviders } from "@/components/ClientProviders";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -36,11 +30,8 @@ export default function RootLayout({
         <Header />
         <div className="flex-1">{children}</div>
         <Footer />
-        <CartDrawer />
-        <AccountDrawer />
+        <ClientProviders />
         <ThemeApplier />
-        <CitySelectModal />
-        <ToastContainer />
       </body>
     </html>
   );

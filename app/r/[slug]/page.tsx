@@ -24,19 +24,6 @@ export default function RestaurantPage() {
   const [tableModalOpen, setTableModalOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  async function startCamera() {
-    setScanError('');
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      streamRef.current = stream;
-      setScanning(true);
-      // After state update, attach stream to video element
-      setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.play();
-          detectLoop();
-        }
   useEffect(() => {
     async function load() {
       try {

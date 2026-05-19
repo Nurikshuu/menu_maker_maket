@@ -1,6 +1,6 @@
 /**
  * useOrder — checkout form state, validation, and order placement.
- * Iterates over all cart restaurant entries and creates one order per restaurant.
+ * Places a single order for all items in the flat cart.
  */
 
 'use client';
@@ -17,6 +17,7 @@ import { placeOrder } from '@/services/order.service';
 import { isValidName, isValidPhone, isValidAddress } from '@/utils/validate-address';
 import { formatPrice } from '@/utils/format-price';
 import { ROUTES } from '@/constants/routes.constants';
+import { CAFE_NAME, MINIMUM_ORDER } from '@/constants/delivery.constants';
 
 const EMPTY_FORM: CheckoutFormData = {
   customerName: '',
@@ -61,53 +62,43 @@ export function useOrder() {
     return Object.keys(next).length === 0;
   }
 
-  function validateMinimumOrders(): boolean {
-    const entries = cart.getRestaurantEntries();
-    for (const entry of entries) {
-      const subtotal = cart.getRestaurantSubtotal(entry.restaurantId);
-      if (subtotal < entry.minimumOrder) {
-        addToast(
-          `Минимальная сумма для «${entry.restaurantName}»: ${formatPrice(entry.minimumOrder)}`,
-          'error',
-        );
-        return false;
-      }
+  function validateMinimumOrder(): boolean {
+    const subtotal = cart.getSubtotal();
+    if (subtotal < MINIMUM_ORDER) {
+      addToast(
+        `Минимальная сумма заказа: ${formatPrice(MINIMUM_ORDER)}`,
+        'error',
+      );
+      return false;
     }
     return true;
   }
 
   async function submitOrder() {
-    if (!validate() || !validateMinimumOrders()) return;
-
-    const entries = cart.getRestaurantEntries();
-    if (entries.length === 0) return;
+    if (!validate() || !validateMinimumOrder()) return;
+    if (cart.items.length === 0) return;
 
     setLoadingState('loading');
     try {
-      const orderPromises = entries.map((entry) =>
-        placeOrder({
-          restaurantId: entry.restaurantId,
-          restaurantName: entry.restaurantName,
-          items: entry.items,
-          subtotal: cart.getRestaurantSubtotal(entry.restaurantId),
-          deliveryFee: entry.deliveryFee,
-          discount: cart.getRestaurantDiscount(entry.restaurantId),
-          total: cart.getRestaurantTotal(entry.restaurantId),
-          form,
-          promoCode: entry.promoCode,
-        }),
-      );
-
-      const orders = await Promise.all(orderPromises);
-      orders.forEach((order) => {
-        sessionStorage.setItem(`order-${order.id}`, JSON.stringify(order));
+      const order = await placeOrder({
+        restaurantId: 'menumaker-kitchen',
+        restaurantName: CAFE_NAME,
+        items: cart.items,
+        subtotal: cart.getSubtotal(),
+        deliveryFee: cart.getDeliveryFee(),
+        discount: cart.getDiscount(),
+        total: cart.getTotal(),
+        form,
+        promoCode: cart.promoCode,
       });
-      sessionStorage.setItem('last-order-ids', JSON.stringify(orders.map((o) => o.id)));
+
+      sessionStorage.setItem(`order-${order.id}`, JSON.stringify(order));
+      sessionStorage.setItem('last-order-ids', JSON.stringify([order.id]));
 
       setLoadingState('success');
-      addToast('Заказы оформлены!', 'success');
+      addToast('Заказ оформлен!', 'success');
       cart.clearAll();
-      router.push(ROUTES.ORDER(orders[0].id));
+      router.push(ROUTES.ORDER(order.id));
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ошибка оформления заказа';
       addToast(message, 'error');

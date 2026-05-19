@@ -27,23 +27,23 @@ const FLASH_DURATION_MS = 600;
 export const MenuItemCard = memo(function MenuItemCard({ item, restaurant, onAdd, addedQuantity }: MenuItemCardProps) {
   const [isAdded, setIsAdded] = useState(false);
   const { handleAddItem } = useCart();
-  // Always call hook unconditionally — required by Rules of Hooks
-  const cartEntry = useCartStore((s) => s.entries[restaurant.id]);
+  // Subscribe directly to flat cart items for this item's quantity
+  const cartQuantity = useCartStore((s) => s.items.find((i) => i.menuItem.id === item.id)?.quantity ?? 0);
 
   function handleAdd() {
     if (onAdd) {
       onAdd(item);
     } else {
-      handleAddItem(item, restaurant);
+      handleAddItem(item);
     }
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), FLASH_DURATION_MS);
   }
 
-  const cartQuantity =
+  const displayQuantity =
     addedQuantity !== undefined
       ? addedQuantity
-      : (cartEntry?.items.find((i) => i.menuItem.id === item.id)?.quantity ?? 0);
+      : cartQuantity;
 
   if (!item.isAvailable) return null;
 
@@ -80,8 +80,8 @@ export const MenuItemCard = memo(function MenuItemCard({ item, restaurant, onAdd
             aria-label={`Добавить ${item.name}`}
           >
             {isAdded ? <Check className="size-3.5" /> : <Plus className="size-3.5" />}
-            {cartQuantity > 0 && !isAdded ? (
-              <span>{cartQuantity}</span>
+            {displayQuantity > 0 && !isAdded ? (
+              <span>{displayQuantity}</span>
             ) : (
               <span>{isAdded ? 'Добавлено' : 'В корзину'}</span>
             )}
